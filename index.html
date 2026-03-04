@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Recommendation System</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.container {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+#loading {
+    display: none;
+    margin-top: 20px;
+}
+
+#results {
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Система рекомендаций</h2>
+
+    <select id="type">
+        <option value="movie">Фильм</option>
+        <option value="book">Книга</option>
+        <option value="music">Музыка</option>
+    </select>
+
+    <select id="genre">
+        <option value="fantasy">Фантастика</option>
+        <option value="drama">Драма</option>
+        <option value="action">Боевик</option>
+        <option value="romance">Романтика</option>
+    </select>
+
+    <button onclick="recommend()">Получить рекомендацию</button>
+
+    <div id="loading">
+        <img src="loading.gif" width="100">
+        <p>Подбор рекомендаций...</p>
+    </div>
+
+    <div id="results"></div>
+</div>
+
+<script>
+function recommend() {
+    const type = document.getElementById("type").value;
+    const genre = document.getElementById("genre").value;
+
+    const loading = document.getElementById("loading");
+    const results = document.getElementById("results");
+
+    results.innerHTML = "";
+    loading.style.display = "block";
+
+    setTimeout(() => {
+        loading.style.display = "none";
+
+        let data = {
+            movie: {
+                fantasy: ["Интерстеллар", "Матрица", "Начало"],
+                drama: ["Зеленая миля", "Форрест Гамп"],
+                action: ["Джон Уик", "Мстители"],
+                romance: ["Титаник", "Дневник памяти"]
+            },
+            book: {
+                fantasy: ["Гарри Поттер", "Властелин колец"],
+                drama: ["1984", "Маленькая жизнь"],
+                action: ["Голодные игры"],
+                romance: ["Гордость и предубеждение"]
+            },
+            music: {
+                fantasy: ["Imagine Dragons", "Hans Zimmer"],
+                drama: ["Adele", "Sam Smith"],
+                action: ["Eminem"],
+                romance: ["Ed Sheeran"]
+            }
+        };
+
+        let recommendations = data[type][genre];
+
+        results.innerHTML = "<h3>Рекомендуем:</h3><ul>" +
+            recommendations.map(item => "<li>" + item + "</li>").join("") +
+            "</ul>";
+
+    }, 1500);
+}
+</script>
+
+</body>
+</html>
